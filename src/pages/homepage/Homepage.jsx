@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 
 export default function Homepage() {
-  // --- 1. ORGANIZATIONS (7 Items) ---
   const organizations = [
     {
       name: "Starlight Diaspora SACCO",
@@ -65,7 +64,6 @@ export default function Homepage() {
     },
   ];
 
-  // --- 2. PORTFOLIO ACCOUNTS (7 Items) ---
   const portfolios = [
     {
       tier: "FOSA Main Share Savings",
@@ -111,7 +109,6 @@ export default function Homepage() {
     },
   ];
 
-  // --- 3. LOAN PRODUCTS (7 Items) ---
   const loans = [
     {
       name: "Emergency Mobile Advance",
@@ -157,7 +154,6 @@ export default function Homepage() {
     },
   ];
 
-  // --- 4. THEMES & BRANDING (7 Items) ---
   const branding = [
     {
       domain: "starlight.saccobase.ch",
@@ -210,7 +206,6 @@ export default function Homepage() {
     },
   ];
 
-  // --- 5. ADMIN USERS (7 Items) ---
   const users = [
     {
       name: "Amos Njuguna",
@@ -256,7 +251,6 @@ export default function Homepage() {
     },
   ];
 
-  // --- 6. SYSTEM PREFERENCES (7 Items) ---
   const preferences = [
     {
       key: "global_transaction_ceiling",
