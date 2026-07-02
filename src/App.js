@@ -9,6 +9,8 @@ import AddOrganization from "./pages/organizations/AddOrganization";
 import PortfolioAccounts from "./pages/portfolio-accounts/PortfolioAccounts";
 import LoanProducts from "./pages/loan-products/LoanProducts";
 import AdminUsers from "./pages/admin-users/AdminUsers";
+import AddLoanProduct from "./pages/loan-products/AddLoanProduct";
+import "./App.css"
 
 function App() {
   return (
@@ -19,6 +21,7 @@ function App() {
         <Route path="add-organization" element={<AddOrganization />} />
         <Route path="portfolio-accounts" element={<PortfolioAccounts />} />
         <Route path="loan-products" element={<LoanProducts />} />
+        <Route path="add-loan-product" element={<AddLoanProduct />} />
         <Route path="admin-users" element={<AdminUsers />} />
       </Route>
 

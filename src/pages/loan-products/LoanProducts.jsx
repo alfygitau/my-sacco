@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { Eye, Edit2, Power, Layers, Plus } from "lucide-react";
 import { useFormatAmount } from "../../hooks/useFormatAmount";
+import { useQuery } from "react-query";
+import { getLoanProducts } from "../../sdk/loan-products/loan-products";
+import { useToast } from "../../contexts/ToastProvider";
+import { useNavigate } from "react-router-dom";
 
 const formatSentenceCase = (str) => {
   if (!str) return "";
@@ -8,129 +12,32 @@ const formatSentenceCase = (str) => {
 };
 
 export default function LoanProductsPage() {
-  // 1. Instantiating state for fetching toggle & search strings to support fallback UI paths
-  const [isFetching, setIsFetching] = useState(false);
   const [searchQuery] = useState("");
   const [activeTab] = useState("Core");
   const formatAmount = useFormatAmount();
+  const { showToast } = useToast();
+  const [loanProducts, setLoanProducts] = useState([]);
+  const navigate = useNavigate();
 
-  // 2. Initializing 8 static data products mirroring your schema requirements
-  const [loanProducts, setLoanProducts] = useState([
-    {
-      id: "lp_001",
-      product_code: "SL-01",
-      product_name: "Salary Advance Loan",
-      interest_rate: 3.5,
-      interest_method: "FLAT_RATE",
-      min_period: 1,
-      max_period: 6,
-      min_amount: 500,
-      max_amount: 5000,
-      min_guarantors: 0,
-      insurance_rate: 1.0,
-      is_active: true,
+  const { isFetching } = useQuery({
+    queryKey: ["loan-products"],
+    queryFn: async () => {
+      const response = await getLoanProducts();
+      return response.data.data;
     },
-    {
-      id: "lp_002",
-      product_code: "BL-04",
-      product_name: "SME Micro Business Growth",
-      interest_rate: 2.2,
-      interest_method: "REDUCING_BALANCE",
-      min_period: 6,
-      max_period: 24,
-      min_amount: 5000,
-      max_amount: 50000,
-      min_guarantors: 2,
-      insurance_rate: 1.5,
-      is_active: true,
+    onSuccess: (data) => {
+      setLoanProducts(data);
     },
-    {
-      id: "lp_003",
-      product_code: "EL-09",
-      product_name: "Emergency Swift Relief",
-      interest_rate: 5.0,
-      interest_method: "AMORTIZED",
-      min_period: 1,
-      max_period: 3,
-      min_amount: 100,
-      max_amount: 1500,
-      min_guarantors: 0,
-      insurance_rate: 0.5,
-      is_active: true,
+    onError: (error) => {
+      showToast({
+        title: "Loan Products processing failed",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
     },
-    {
-      id: "lp_004",
-      product_code: "AL-12",
-      product_name: "Asset Financing / Motoring",
-      interest_rate: 1.8,
-      interest_method: "REDUCING_BALANCE",
-      min_period: 12,
-      max_period: 48,
-      min_amount: 10000,
-      max_amount: 120000,
-      min_guarantors: 3,
-      insurance_rate: 2.5,
-      is_active: false,
-    },
-    {
-      id: "lp_005",
-      product_code: "AG-03",
-      product_name: "Agribusiness Seasonal Capital",
-      interest_rate: 2.0,
-      interest_method: "FLAT_RATE",
-      min_period: 3,
-      max_period: 12,
-      min_amount: 2000,
-      max_amount: 25000,
-      min_guarantors: 1,
-      insurance_rate: 1.8,
-      is_active: true,
-    },
-    {
-      id: "lp_006",
-      product_code: "ED-77",
-      product_name: "EduPay Academic Financing",
-      interest_rate: 1.5,
-      interest_method: "AMORTIZED",
-      min_period: 2,
-      max_period: 10,
-      min_amount: 300,
-      max_amount: 8000,
-      min_guarantors: 1,
-      insurance_rate: 0.8,
-      is_active: true,
-    },
-    {
-      id: "lp_007",
-      product_code: "PL-50",
-      product_name: "Personal Unsecured Line",
-      interest_rate: 4.2,
-      interest_method: "FLAT_RATE",
-      min_period: 6,
-      max_period: 36,
-      min_amount: 1000,
-      max_amount: 20000,
-      min_guarantors: 2,
-      insurance_rate: 2.0,
-      is_active: true,
-    },
-    {
-      id: "lp_008",
-      product_code: "ST-02",
-      product_name: "Green Energy Solar Tech",
-      interest_rate: 1.2,
-      interest_method: "REDUCING_BALANCE",
-      min_period: 6,
-      max_period: 18,
-      min_amount: 400,
-      max_amount: 6000,
-      min_guarantors: 0,
-      insurance_rate: 0.5,
-      is_active: false,
-    },
-  ]);
+  });
 
-  // Mock local action handlers
   const handleToggleStatus = (id) => {
     setLoanProducts((prev) =>
       prev.map((item) =>
@@ -160,7 +67,10 @@ export default function LoanProductsPage() {
           </p>
         </div>
 
-        <button className="h-11 sm:w-full px-5 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded-xl shadow-md shadow-primary/10 hover:bg-primary/90 active:scale-98 transition-all flex items-center gap-2 cursor-pointer self-stretch sm:self-auto justify-center font-semibold">
+        <button
+          onClick={() => navigate(`/admin/add-loan-product`)}
+          className="h-11 sm:w-full px-5 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded-xl shadow-md shadow-primary/10 hover:bg-primary/90 active:scale-98 transition-all flex items-center gap-2 cursor-pointer self-stretch sm:self-auto justify-center font-semibold"
+        >
           <Plus size={16} strokeWidth={2.5} />
           <span>Create Loan Product</span>
         </button>
@@ -185,7 +95,7 @@ export default function LoanProductsPage() {
             {/* Table Body Content Matrix */}
             <tbody className="divide-y divide-slate-100 text-xs">
               {isFetching ? (
-                Array(8)
+                Array(10)
                   .fill(0)
                   .map((_, index) => (
                     <tr

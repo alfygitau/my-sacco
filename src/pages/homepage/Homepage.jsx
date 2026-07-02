@@ -8,7 +8,7 @@ import {
   Sliders,
   ArrowUpRight,
   ShieldCheck,
-  CheckCircle2,
+  Plus,
 } from "lucide-react";
 
 export default function Homepage() {
@@ -315,8 +315,8 @@ export default function Homepage() {
             system modules.
           </p>
         </div>
-        <button className="px-4 py-2 bg-primary hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-all shadow-sm">
-          + Initialize Workspace
+        <button className="px-8 py-3 bg-primary flex items-center justify-center gap-3 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-all shadow-sm">
+          <Plus size={16} /> Add Organization
         </button>
       </div>
 
