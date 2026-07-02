@@ -175,7 +175,7 @@ export default function AdminUsers() {
 
           <button className="h-11 px-8 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded-xl shadow-md shadow-primary/10 hover:bg-primary/90 active:scale-98 transition-all flex items-center gap-2 cursor-pointer self-stretch sm:self-auto justify-center font-semibold">
             <Plus size={16} strokeWidth={2.5} />
-            <span>Add Admin User</span>
+            <span>Add an Admin User</span>
           </button>
         </div>
 
@@ -290,7 +290,7 @@ export default function AdminUsers() {
                           <Edit size={13} />
                         </button>
                         <button
-                          className="size-8 rounded-xl border border-rose-100 text-rose-400 hover:text-rose-600 hover:bg-rose-50 hover:border-rose-200 transition-all shadow-xs bg-white"
+                          className="size-8 rounded-xl border border-rose-100 flex items-center justify-center text-rose-400 hover:text-rose-600 hover:bg-rose-50 hover:border-rose-200 transition-all shadow-xs bg-white"
                           title="Revoke Clearances"
                         >
                           <Trash2 size={13} />

@@ -227,7 +227,7 @@ export default function Organizations() {
   return (
     <div className="space-y-6 bg-slate-50 text-slate-800">
       {/* Dynamic Action Header Unit */}
-      <div className="flex flex-row justify-between items-start sm:items-center gap-4 bg-white border border-slate-200/80 p-5 rounded-2xl shadow-3xs">
+      <div className="flex sm:w-full flex-row sm:flex-col justify-between items-start sm:items-start gap-4 bg-white border border-slate-200/80 p-5 rounded-2xl shadow-3xs">
         <div>
           <h1 className="text-xl font-bold tracking-tight text-slate-900 flex items-center gap-2">
             <Building2 className="text-primary size-5" /> Organization Register
@@ -239,7 +239,7 @@ export default function Organizations() {
         </div>
         <button
           onClick={handleAddOrganization}
-          className="inline-flex items-center gap-1.5 h-10 px-4 bg-primary hover:bg-primary text-white text-xs font-bold rounded-xl transition-all shadow-sm active:scale-95 cursor-pointer"
+          className="inline-flex items-center gap-1.5 h-10 sm:w-full px-4 bg-primary hover:bg-primary text-white text-xs uppercase font-bold rounded-xl transition-all shadow-sm active:scale-95 cursor-pointer"
         >
           <Plus size={15} strokeWidth={2.5} /> Register New Organization
         </button>

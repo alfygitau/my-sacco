@@ -145,7 +145,7 @@ export default function LoanProductsPage() {
 
   return (
     <div className="w-full bg-slate-50 text-slate-600 antialiased">
-      <div className="flex flex-row justify-between items-start mb-8 sm:items-center gap-4 border-b border-slate-200 pb-5">
+      <div className="sm:w-full flex flex-row sm:flex-col sm:items-start justify-between items-start mb-8 sm:items-start gap-4 border-b border-slate-200 pb-5">
         <div>
           <div className="flex items-center gap-2 text-primary mb-1">
             <span className="text-xs font-bold uppercase tracking-widest font-mono">
@@ -160,7 +160,7 @@ export default function LoanProductsPage() {
           </p>
         </div>
 
-        <button className="h-11 px-5 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded-xl shadow-md shadow-primary/10 hover:bg-primary/90 active:scale-98 transition-all flex items-center gap-2 cursor-pointer self-stretch sm:self-auto justify-center font-semibold">
+        <button className="h-11 sm:w-full px-5 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded-xl shadow-md shadow-primary/10 hover:bg-primary/90 active:scale-98 transition-all flex items-center gap-2 cursor-pointer self-stretch sm:self-auto justify-center font-semibold">
           <Plus size={16} strokeWidth={2.5} />
           <span>Create Loan Product</span>
         </button>

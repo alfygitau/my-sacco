@@ -238,7 +238,7 @@ export default function PortfolioAccounts() {
 
   return (
     <div className="bg-slate-50 text-slate-800 space-y-6">
-      <div className="flex flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-200 pb-5">
+      <div className="sm:w-full flex flex-row sm:flex-col justify-between items-start sm:items-start gap-4 border-b border-slate-200 pb-5">
         <div>
           <div className="flex items-center gap-2 text-primary mb-1">
             <span className="text-xs font-bold uppercase tracking-widest font-mono">
@@ -256,10 +256,10 @@ export default function PortfolioAccounts() {
 
         <button
           onClick={() => navigate("/categories/create")}
-          className="h-11 px-5 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded-xl shadow-md shadow-primary/10 hover:bg-primary/90 active:scale-98 transition-all flex items-center gap-2 cursor-pointer self-stretch sm:self-auto justify-center font-semibold"
+          className="h-11 sm:w-full px-5 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded-xl shadow-md shadow-primary/10 hover:bg-primary/90 active:scale-98 transition-all flex items-center gap-2 cursor-pointer self-stretch sm:self-auto justify-center font-semibold"
         >
           <Plus size={16} strokeWidth={2.5} />
-          <span>Create Account</span>
+          <span>Add a Portfolio Account</span>
         </button>
       </div>
 
@@ -268,17 +268,17 @@ export default function PortfolioAccounts() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-slate-50/70 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider h-12">
-                <th className="pl-5 pr-4 py-3 text-left">
+              <tr className="bg-slate-50/70 border-b border-slate-200 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                <th className="pl-5 pr-4 py-4.5 text-left">
                   Category & System ID
                 </th>
-                <th className="px-4 py-3 text-left">Accounting Group</th>
-                <th className="px-4 py-3 text-left">Withdrawal Rules</th>
-                <th className="px-4 py-3 text-left">Loan Security</th>
-                <th className="px-4 py-3 text-center">Earnings Type</th>
-                <th className="px-4 py-3 text-left">Timelines & Status</th>
-                <th className="px-4 py-3 text-left">Withholding Tax</th>
-                <th className="pr-5 pl-4 py-3 text-center">Actions</th>
+                <th className="px-4 py-4.5 text-left">Accounting Group</th>
+                <th className="px-4 py-4.5 text-left">Withdrawal Rules</th>
+                <th className="px-4 py-4.5 text-left">Loan Security</th>
+                <th className="px-4 py-4.5 text-center">Earnings Type</th>
+                <th className="px-4 py-4.5 text-left">Timelines & Status</th>
+                <th className="px-4 py-4.5 text-left truncate">Withholding Tax</th>
+                <th className="pr-5 pl-4 py-4.5 text-center">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 text-xs font-medium text-slate-700">
