@@ -16,13 +16,18 @@ import {
   ArrowUpRight,
   ChevronDown,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { useMutation } from "react-query";
-import { addOrganization } from "../../sdk/organizations/orgnaization";
+import { useNavigate, useParams } from "react-router-dom";
+import { useMutation, useQuery } from "react-query";
+import {
+  editOrganization,
+  getOrganization,
+} from "../../sdk/organizations/orgnaization";
 import { useToast } from "../../contexts/ToastProvider";
 
-export default function AddOrganization() {
+export default function EditOrganization() {
   const navigate = useNavigate();
+  const { id } = useParams();
+  const [organization, setOrganization] = useState({});
   const [formData, setFormData] = useState({
     org_code: "",
     org_name: "",
@@ -120,10 +125,48 @@ export default function AddOrganization() {
     await mutate();
   };
 
+  const { isFetching } = useQuery({
+    queryKey: ["get organization", id],
+    queryFn: async () => {
+      const response = await getOrganization(id);
+      return response.data?.data;
+    },
+    onSuccess: (data) => {
+      setFormData((prev) => ({
+        ...prev,
+        org_code: data?.org_code ?? "",
+        org_name: data?.org_name ?? "",
+        org_type: data?.org_type ?? "",
+        description: data?.description ?? "",
+        logo_url: data?.logo_url ?? "",
+        registration_number: data?.registration_number ?? "",
+        license_number: data?.license_number ?? "",
+        registration_date: data?.registration_date ?? "",
+        email: data?.email ?? "",
+        phone: data?.phone ?? "",
+        address: data?.address ?? "",
+        city: data?.city ?? "",
+        county: data?.county ?? "",
+        country: "KE",
+        primary_currency: "KES",
+        timezone: "Africa/Nairobi",
+      }));
+      setOrganization(data);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Organizations processing failed",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
   const { mutate, isLoading } = useMutation({
-    mutationKey: ["add organization"],
+    mutationKey: ["edit organization"],
     mutationFn: async () => {
-      const response = await addOrganization(
+      const response = await editOrganization(
         formData.org_code,
         formData.org_name,
         formData.org_type,
@@ -148,7 +191,7 @@ export default function AddOrganization() {
         title: "Organization Registered",
         type: "success",
         position: "top-right",
-        description: `${formData.org_name} has been successfully provisioned onto the ecosystem platform.`,
+        description: `${formData.org_name} has been successfully edited onto the ecosystem platform.`,
       });
       navigate("/admin/organizations");
     },
@@ -175,8 +218,11 @@ export default function AddOrganization() {
               <ArrowLeft size={16} />
             </button>
             <div>
+              <p className="text-xs text-slate-500 mt-0.5">
+                {organization?.org_name ?? ""}
+              </p>
               <h1 className="text-xl font-bold tracking-tight text-slate-900">
-                Register Organization
+                Edit Organization
               </h1>
               <p className="text-xs text-slate-500 mt-0.5">
                 Onboard a new enterprise node onto the ecosystem platform.

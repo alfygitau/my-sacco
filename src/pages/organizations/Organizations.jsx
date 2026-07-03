@@ -9,6 +9,7 @@ import {
   ShieldCheck,
   FileText,
   Plus,
+  Edit2,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
@@ -166,7 +167,8 @@ export default function Organizations() {
                             {org?.settings?.sms_notifications ? "ON" : "OFF"}
                           </span>
                           <span className="text-[8px] font-extrabold uppercase tracking-wider px-1.5 py-0.25 rounded-sm bg-slate-100 text-slate-600">
-                            Guarantors Ceiling: {org?.settings?.max_guarantors ?? 0}
+                            Guarantors Ceiling:{" "}
+                            {org?.settings?.max_guarantors ?? 0}
                           </span>
                         </div>
                       </div>
@@ -230,17 +232,26 @@ export default function Organizations() {
 
                     {/* Col 6: Profile Record Inspect Triggers */}
                     <td className="py-4 px-6 text-right pr-8">
-                      <button
-                        onClick={() =>
-                          console.log(
-                            `Navigating to profile directory detail node view for ID: ${org.id}`,
-                          )
-                        }
-                        className="size-8 rounded-xl border border-slate-200/60 inline-flex items-center justify-center text-slate-400 hover:text-primary hover:bg-slate-50 hover:border-slate-300 transition-all shadow-3xs bg-white cursor-pointer"
-                        title="Inspect Registry Assets"
-                      >
-                        <Eye size={14} />
-                      </button>
+                      <div className="flex items-center justify-end gap-2">
+                        <button
+                          onClick={() =>
+                            navigate(`/admin/organizations/${org?.id}`)
+                          }
+                          className="size-8 rounded-xl border border-slate-200/60 inline-flex items-center justify-center text-slate-400 hover:text-primary hover:bg-slate-50 hover:border-slate-300 transition-all shadow-3xs bg-white cursor-pointer"
+                          title="Inspect Registry Assets"
+                        >
+                          <Eye size={14} />
+                        </button>
+                        <button
+                          onClick={() =>
+                            navigate(`/admin/edit-organization/${org?.id}`)
+                          }
+                          className="size-8 rounded-xl border border-slate-200/60 flex items-center justify-center text-slate-400 hover:text-primary hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm bg-white cursor-pointer"
+                          title="Edit Parameters"
+                        >
+                          <Edit2 size={14} />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))
