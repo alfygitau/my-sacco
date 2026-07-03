@@ -14,9 +14,15 @@ import {
   Check,
   Layers3,
 } from "lucide-react";
+import { addLoanProduct } from "../../sdk/loan-products/loan-products";
+import { useMutation } from "react-query";
+import { useToast } from "../../contexts/ToastProvider";
+import { useNavigate } from "react-router-dom";
 
 export default function AddLoanProduct() {
   const [errors, setErrors] = useState({});
+  const { showToast } = useToast();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     product_code: "",
     product_name: "",
@@ -140,9 +146,106 @@ export default function AddLoanProduct() {
         : ""
     }`;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    await mutate();
   };
+
+  const { mutate, isLoading } = useMutation({
+    mutationKey: ["edit loan product"],
+    mutationFn: async () => {
+      const response = await addLoanProduct(
+        formData?.product_code,
+        formData?.product_name,
+        formData?.description,
+        formData?.features,
+        formData?.terms_and_conditions,
+        formData?.is_active,
+        formData?.org_code,
+        formData?.loan_mode,
+        formData?.min_amount,
+        formData?.max_amount,
+        formData?.min_period,
+        formData?.max_period,
+        formData?.limit_algorithm,
+        formData?.limit_start_amount,
+        formData?.limit_increment_amount,
+        formData?.limit_start_multiplier,
+        formData?.limit_increment_multiplier,
+        formData?.limit_max_multiplier,
+        formData?.limit_multiplier_basis,
+        formData?.limit_resets_on_default,
+        formData?.interest_rate,
+        formData?.interest_key,
+        formData?.interest_method,
+        formData?.repayment_interval,
+        formData?.duration_key,
+        formData?.processing_fee_type,
+        formData?.processing_fee_value,
+        formData?.deduct_fee_from_principal,
+        formData?.has_insurance,
+        formData?.insurance_rate,
+        formData?.has_penalty,
+        formData?.penalty_type,
+        formData?.penalty_value,
+        formData?.penalty_frequency,
+        formData?.grace_period_days,
+        formData?.penalty_grace_period_days,
+        formData?.penalty_cap_days,
+        formData?.max_penalty_rate,
+        formData?.workflow_type,
+        formData?.auto_disburse,
+        formData?.committee_approvals_required,
+        formData?.requires_manager_approval,
+        formData?.committee_group_id,
+        formData?.allowed_disbursement_methods,
+        formData?.requires_guarantor,
+        formData?.min_guarantors,
+        formData?.max_guarantors,
+        formData?.guarantor_required_above_amount,
+        formData?.guarantor_coverage_percent,
+        formData?.min_membership_months,
+        formData?.min_shares_amount,
+        formData?.min_savings_amount,
+        formData?.max_loan_to_shares_ratio,
+        formData?.max_loan_to_savings_ratio,
+        formData?.max_active_loans_of_type,
+        formData?.max_total_active_loans,
+        formData?.blocked_concurrent_loan_types,
+        formData?.allowed_concurrent_loan_types,
+        formData?.block_if_defaulted,
+        formData?.min_repayment_percent_before_reapply,
+        formData?.block_if_guarantor_on_defaulted,
+        formData?.required_kyc_level,
+        formData?.allows_rollover,
+        formData?.allows_topup,
+        formData?.min_repayment_percent_for_topup,
+        formData?.moratorium_months,
+        formData?.moratorium_interest_handling,
+        formData?.requires_collateral,
+        formData?.collateral_description,
+        formData?.allowed_currencies,
+      );
+      return response.data.data;
+    },
+    onSuccess: (data) => {
+      showToast({
+        title: "Product Configured",
+        type: "success",
+        position: "top-right",
+        description: `${formData.product_name} has been successfully added onto the ecosystem platform.`,
+      });
+      navigate(`/admin/loan-products`);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Loan Products processing failed",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
 
   const noSpinnerUtility =
     "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none";
@@ -1349,10 +1452,20 @@ export default function AddLoanProduct() {
             <button
               onClick={handleSubmit}
               type="submit"
-              className="h-11 px-6 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded-xl shadow-lg shadow-primary/10 hover:bg-primary/90 transition-all active:scale-97 cursor-pointer flex items-center gap-2"
+              disabled={isLoading}
+              className="h-11 px-6 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded-xl shadow-lg shadow-primary/10 hover:bg-primary/90 transition-all active:scale-97 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer flex items-center gap-2"
             >
-              <span>Launch Product</span>
-              <ArrowUpRight size={14} />
+              {isLoading ? (
+                <>
+                  <span>Launching...</span>
+                  <span className="animate-spin inline-block w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full" />
+                </>
+              ) : (
+                <>
+                  <span>Launch Product</span>
+                  <ArrowUpRight size={14} />
+                </>
+              )}
             </button>
           </div>
         </form>

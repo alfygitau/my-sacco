@@ -42,8 +42,8 @@ export default function LoanProductsPage() {
     navigate(`/admin/loan-products/${id}`);
   };
 
-  const handleNavigateMock = (path) => {
-    console.log(`Navigating mock routing layer to: ${path}`);
+  const handleEditProduct = (id) => {
+    navigate(`/admin/edit-loan-product/${id}`);
   };
 
   return (
@@ -254,9 +254,7 @@ export default function LoanProductsPage() {
                           <Eye size={14} />
                         </button>
                         <button
-                          onClick={() =>
-                            handleNavigateMock("/admin/edit-loan-product")
-                          }
+                          onClick={() => handleEditProduct(product?.id)}
                           className="size-8 rounded-xl border border-slate-200/60 flex items-center justify-center text-slate-400 hover:text-primary hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm bg-white"
                           title="Edit Parameters"
                         >

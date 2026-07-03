@@ -14,9 +14,20 @@ import {
   Check,
   Layers3,
 } from "lucide-react";
+import {
+  editLoanProduct,
+  getLoanProduct,
+} from "../../sdk/loan-products/loan-products";
+import { useNavigate, useParams } from "react-router-dom";
+import { useToast } from "../../contexts/ToastProvider";
+import { useQuery, useMutation } from "react-query";
 
 export default function EditLoanProduct() {
   const [errors, setErrors] = useState({});
+  const { id } = useParams();
+  const { showToast } = useToast();
+  const [loanProduct, setLoanProduct] = useState({});
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     product_code: "",
     product_name: "",
@@ -140,9 +151,206 @@ export default function EditLoanProduct() {
         : ""
     }`;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    await mutate();
   };
+
+  const { isFetching } = useQuery({
+    queryKey: ["get loan product", id],
+    queryFn: async () => {
+      const response = await getLoanProduct(id);
+      return response.data?.data;
+    },
+    onSuccess: (data) => {
+      setFormData((prev) => ({
+        ...prev,
+        product_code: data?.product_code ?? "",
+        product_name: data?.product_name ?? "",
+        description: data?.description ?? "",
+        features: data?.features ?? null,
+        terms_and_conditions: data?.terms_and_conditions ?? null,
+        is_active: data?.is_active ?? false,
+        org_code: data?.org_code ?? "",
+        loan_mode: data?.loan_mode ?? "",
+        min_amount: data?.min_amount ?? "",
+        max_amount: data?.max_amount ?? "",
+        min_period: data?.min_period ?? "",
+        max_period: data?.max_period ?? "",
+        limit_algorithm: data?.limit_algorithm ?? "fixed",
+        limit_start_amount: data?.limit_start_amount ?? "",
+        limit_increment_amount: data?.limit_increment_amount ?? "",
+        limit_start_multiplier: data?.limit_start_multiplier ?? "",
+        limit_increment_multiplier: data?.limit_increment_multiplier ?? "",
+        limit_max_multiplier: data?.limit_max_multiplier ?? "",
+        limit_multiplier_basis: data?.limit_multiplier_basis ?? "savings",
+        limit_resets_on_default: data?.limit_resets_on_default ?? false,
+        interest_rate: data?.interest_rate ?? "",
+        interest_key: data?.interest_key ?? "pm",
+        interest_method: data?.interest_method ?? "reducing_balance",
+        repayment_interval: data?.repayment_interval ?? "Monthly",
+        duration_key: data?.duration_key ?? "pm",
+        processing_fee_type: data?.processing_fee_type ?? "percentage",
+        processing_fee_value: data?.processing_fee_value ?? "",
+        deduct_fee_from_principal: data?.deduct_fee_from_principal ?? false,
+        has_insurance: data?.has_insurance ?? false,
+        insurance_rate: data?.insurance_rate ?? "",
+        has_penalty: data?.has_penalty ?? false,
+        penalty_type: data?.penalty_type ?? "percentage_of_outstanding",
+        penalty_value: data?.penalty_value ?? "",
+        penalty_frequency: data?.penalty_frequency ?? "monthly",
+        grace_period_days: data?.grace_period_days ?? "",
+        penalty_grace_period_days: data?.penalty_grace_period_days ?? "",
+        penalty_cap_days: data?.penalty_cap_days ?? "",
+        max_penalty_rate: data?.max_penalty_rate ?? "",
+        workflow_type: data?.workflow_type ?? "committee_and_manager",
+        auto_disburse: data?.auto_disburse ?? false,
+        committee_approvals_required: data?.committee_approvals_required ?? "",
+        requires_manager_approval: data?.requires_manager_approval ?? false,
+        committee_group_id: data?.committee_group_id ?? "",
+        allowed_disbursement_methods: data?.allowed_disbursement_methods ?? [],
+        requires_guarantor: data?.requires_guarantor ?? false,
+        min_guarantors: data?.min_guarantors ?? "",
+        max_guarantors: data?.max_guarantors ?? "",
+        guarantor_required_above_amount:
+          data?.guarantor_required_above_amount ?? "",
+        guarantor_coverage_percent: data?.guarantor_coverage_percent ?? "",
+        min_membership_months: data?.min_membership_months ?? "",
+        min_shares_amount: data?.min_shares_amount ?? "",
+        min_savings_amount: data?.min_savings_amount ?? "",
+        max_loan_to_shares_ratio: data?.max_loan_to_shares_ratio ?? "",
+        max_loan_to_savings_ratio: data?.max_loan_to_savings_ratio ?? "",
+        max_active_loans_of_type: data?.max_active_loans_of_type ?? "",
+        max_total_active_loans: data?.max_total_active_loans ?? "",
+        blocked_concurrent_loan_types:
+          data?.blocked_concurrent_loan_types ?? [],
+        allowed_concurrent_loan_types:
+          data?.allowed_concurrent_loan_types ?? [],
+        block_if_defaulted: data?.block_if_defaulted ?? false,
+        min_repayment_percent_before_reapply:
+          data?.min_repayment_percent_before_reapply ?? "",
+        block_if_guarantor_on_defaulted:
+          data?.block_if_guarantor_on_defaulted ?? false,
+        required_kyc_level: data?.required_kyc_level ?? "",
+        allows_rollover: data?.allows_rollover ?? false,
+        allows_topup: data?.allows_topup ?? false,
+        min_repayment_percent_for_topup:
+          data?.min_repayment_percent_for_topup ?? "",
+        moratorium_months: data?.moratorium_months ?? "",
+        moratorium_interest_handling:
+          data?.moratorium_interest_handling ?? "interest_only",
+        requires_collateral: data?.requires_collateral ?? false,
+        collateral_description: data?.collateral_description ?? "",
+        allowed_currencies: data?.allowed_currencies ?? ["KES"],
+      }));
+      setLoanProduct(data);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Loan product processing failed",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  const { mutate, isLoading } = useMutation({
+    mutationKey: ["edit loan product"],
+    mutationFn: async () => {
+      const response = await editLoanProduct(
+        id,
+        formData?.product_code,
+        formData?.product_name,
+        formData?.description,
+        formData?.features,
+        formData?.terms_and_conditions,
+        formData?.is_active,
+        formData?.org_code,
+        formData?.loan_mode,
+        formData?.min_amount,
+        formData?.max_amount,
+        formData?.min_period,
+        formData?.max_period,
+        formData?.limit_algorithm,
+        formData?.limit_start_amount,
+        formData?.limit_increment_amount,
+        formData?.limit_start_multiplier,
+        formData?.limit_increment_multiplier,
+        formData?.limit_max_multiplier,
+        formData?.limit_multiplier_basis,
+        formData?.limit_resets_on_default,
+        formData?.interest_rate,
+        formData?.interest_key,
+        formData?.interest_method,
+        formData?.repayment_interval,
+        formData?.duration_key,
+        formData?.processing_fee_type,
+        formData?.processing_fee_value,
+        formData?.deduct_fee_from_principal,
+        formData?.has_insurance,
+        formData?.insurance_rate,
+        formData?.has_penalty,
+        formData?.penalty_type,
+        formData?.penalty_value,
+        formData?.penalty_frequency,
+        formData?.grace_period_days,
+        formData?.penalty_grace_period_days,
+        formData?.penalty_cap_days,
+        formData?.max_penalty_rate,
+        formData?.workflow_type,
+        formData?.auto_disburse,
+        formData?.committee_approvals_required,
+        formData?.requires_manager_approval,
+        formData?.committee_group_id,
+        formData?.allowed_disbursement_methods,
+        formData?.requires_guarantor,
+        formData?.min_guarantors,
+        formData?.max_guarantors,
+        formData?.guarantor_required_above_amount,
+        formData?.guarantor_coverage_percent,
+        formData?.min_membership_months,
+        formData?.min_shares_amount,
+        formData?.min_savings_amount,
+        formData?.max_loan_to_shares_ratio,
+        formData?.max_loan_to_savings_ratio,
+        formData?.max_active_loans_of_type,
+        formData?.max_total_active_loans,
+        formData?.blocked_concurrent_loan_types,
+        formData?.allowed_concurrent_loan_types,
+        formData?.block_if_defaulted,
+        formData?.min_repayment_percent_before_reapply,
+        formData?.block_if_guarantor_on_defaulted,
+        formData?.required_kyc_level,
+        formData?.allows_rollover,
+        formData?.allows_topup,
+        formData?.min_repayment_percent_for_topup,
+        formData?.moratorium_months,
+        formData?.moratorium_interest_handling,
+        formData?.requires_collateral,
+        formData?.collateral_description,
+        formData?.allowed_currencies,
+      );
+      return response.data.data;
+    },
+    onSuccess: (data) => {
+      showToast({
+        title: "Product Configured",
+        type: "success",
+        position: "top-right",
+        description: `${formData.product_name} has been successfully updated onto the ecosystem platform.`,
+      });
+      navigate(`/admin/loan-products`);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Loan Products processing failed",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
 
   const noSpinnerUtility =
     "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none";
@@ -1341,18 +1549,22 @@ export default function EditLoanProduct() {
               Cancel
             </button>
             <button
-              type="button"
-              className="h-11 px-5 border border-slate-200/80 bg-white text-slate-600 text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-slate-50 transition-all cursor-pointer"
-            >
-              Save Draft
-            </button>
-            <button
               onClick={handleSubmit}
               type="submit"
-              className="h-11 px-6 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded-xl shadow-lg shadow-primary/10 hover:bg-primary/90 transition-all active:scale-97 cursor-pointer flex items-center gap-2"
+              disabled={isLoading}
+              className="h-11 px-6 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded-xl shadow-lg shadow-primary/10 hover:bg-primary/90 transition-all active:scale-97 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer flex items-center gap-2"
             >
-              <span>Launch Product</span>
-              <ArrowUpRight size={14} />
+              {isLoading ? (
+                <>
+                  <span>Saving...</span>
+                  <span className="animate-spin inline-block w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full" />
+                </>
+              ) : (
+                <>
+                  <span>Edit Product</span>
+                  <ArrowUpRight size={14} />
+                </>
+              )}
             </button>
           </div>
         </form>
