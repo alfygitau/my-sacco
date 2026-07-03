@@ -14,6 +14,7 @@ import "./App.css";
 import EditOrganization from "./pages/organizations/EditOrganization";
 import OrganizationProfile from "./pages/organizations/Organization";
 import EditLoanProduct from "./pages/loan-products/EditLoanProduct";
+import LoanProductProfile from "./pages/loan-products/LoanProduct";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="loan-products" element={<LoanProducts />} />
         <Route path="add-loan-product" element={<AddLoanProduct />} />
         <Route path="edit-loan-product/:id" element={<EditLoanProduct />} />
+        <Route path="loan-products/:id" element={<LoanProductProfile />} />
 
         <Route path="admin-users" element={<AdminUsers />} />
       </Route>

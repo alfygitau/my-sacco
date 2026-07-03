@@ -8,3 +8,12 @@ export const getLoanProducts = async () => {
     throw error?.response?.data || error;
   }
 };
+
+export const getLoanProduct = async (id) => {
+  try {
+    const response = await loanClient.get(`/loan-products/${id}`);
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};

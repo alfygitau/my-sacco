@@ -38,12 +38,8 @@ export default function LoanProductsPage() {
     },
   });
 
-  const handleToggleStatus = (id) => {
-    setLoanProducts((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, is_active: !item.is_active } : item,
-      ),
-    );
+  const handleViewProduct = (id) => {
+    navigate(`/admin/loan-products/${id}`);
   };
 
   const handleNavigateMock = (path) => {
@@ -251,6 +247,7 @@ export default function LoanProductsPage() {
                     <td className="py-4 px-6 text-right pr-8">
                       <div className="flex items-center justify-end gap-1.5">
                         <button
+                          onClick={() => handleViewProduct(product?.id)}
                           className="size-8 rounded-xl border border-slate-200/60 flex items-center justify-center text-slate-400 hover:text-primary hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm bg-white"
                           title="View Extended Rules"
                         >
@@ -266,7 +263,6 @@ export default function LoanProductsPage() {
                           <Edit2 size={14} />
                         </button>
                         <button
-                          onClick={() => handleToggleStatus(product.id)}
                           className={`size-8 rounded-xl border flex items-center justify-center transition-all shadow-sm bg-white ${
                             product.is_active
                               ? "border-rose-100 text-rose-600 hover:bg-rose-50 hover:border-rose-200"
