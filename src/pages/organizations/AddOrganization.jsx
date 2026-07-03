@@ -293,7 +293,7 @@ export default function AddOrganization() {
 
               <div>
                 <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">
-                  Logo URL Asset
+                  Logo URL
                 </label>
                 <div
                   className={`flex items-center border rounded-xl bg-white overflow-hidden transition-all h-14 ${errors.logo_url ? "border-rose-500 focus-within:ring-1 focus-within:ring-rose-500" : "border-slate-200"}`}
@@ -362,7 +362,7 @@ export default function AddOrganization() {
 
               <div>
                 <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">
-                  Regulatory Operating License
+                  Regulatory License Number
                 </label>
                 <div
                   className={`flex items-center border rounded-xl bg-white overflow-hidden transition-all h-14 ${errors.license_number ? "border-rose-500 focus-within:ring-1 focus-within:ring-rose-500" : "border-slate-200"}`}
@@ -431,7 +431,7 @@ export default function AddOrganization() {
             <div className="space-y-4">
               <div>
                 <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">
-                  Primary Email Gateway
+                  Primary Email
                 </label>
                 <div
                   className={`flex items-center border rounded-xl bg-white overflow-hidden transition-all h-14 ${errors.email ? "border-rose-500 focus-within:ring-1 focus-within:ring-rose-500" : "border-slate-200"}`}
@@ -460,7 +460,7 @@ export default function AddOrganization() {
 
               <div>
                 <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">
-                  Support Telephone Hotline
+                  Support Telephone
                 </label>
                 <div
                   className={`flex items-center border rounded-xl bg-white overflow-hidden transition-all h-14 ${errors.phone ? "border-rose-500 focus-within:ring-1 focus-within:ring-rose-500" : "border-slate-200"}`}
@@ -494,7 +494,7 @@ export default function AddOrganization() {
             <div className="flex items-center gap-2 pb-1 border-b border-slate-100">
               <MapPin size={16} className="text-primary" />
               <h3 className="text-sm font-bold text-slate-900">
-                Physical Node & Localization
+                Physical Location
               </h3>
             </div>
 
@@ -531,7 +531,7 @@ export default function AddOrganization() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">
-                    City Node
+                    City
                   </label>
                   <div
                     className={`flex items-center border rounded-xl bg-white overflow-hidden transition-all h-14 ${errors.city ? "border-rose-500 focus-within:ring-1 focus-within:ring-rose-500" : "border-slate-200"}`}
@@ -560,7 +560,7 @@ export default function AddOrganization() {
 
                 <div>
                   <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">
-                    County Allocation
+                    County
                   </label>
                   <div
                     className={`flex items-center border rounded-xl bg-white overflow-hidden transition-all h-14 ${errors.county ? "border-rose-500 focus-within:ring-1 focus-within:ring-rose-500" : "border-slate-200"}`}
@@ -591,7 +591,7 @@ export default function AddOrganization() {
               <div className="grid grid-cols-3 gap-3">
                 <div>
                   <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">
-                    Country Iso
+                    Country Code
                   </label>
                   <div className="flex items-center border border-slate-200 rounded-xl bg-slate-50 overflow-hidden h-14">
                     <div className="px-2.5 text-slate-400">
@@ -650,7 +650,7 @@ export default function AddOrganization() {
           <div className="md:col-span-2 bg-white border border-slate-200/80 rounded-2xl p-5 shadow-3xs space-y-3">
             <div>
               <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">
-                Core Operation Dossier Description
+                Core Operation Description
               </label>
               <textarea
                 name="description"
